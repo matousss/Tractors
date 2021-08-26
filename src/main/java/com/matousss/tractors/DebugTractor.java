@@ -21,7 +21,6 @@ public class DebugTractor extends Command {
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String s, @NotNull String[] strings) {
-        sender.sendMessage("fuck");
         if (sender instanceof Player) {
             Player player = (Player) sender;
             Entity vehicle = player.getVehicle();
@@ -38,10 +37,13 @@ public class DebugTractor extends Command {
             Vector v = location.getDirection().normalize();
             Vector w = location.getDirection().normalize().rotateAroundY(Math.PI/2.0).multiply(.5);
             Location[] locations = new Location[4];
-            locations[0] = location.add(v.clone().multiply(1.5)).add(w);
-            locations[1] = location.add(v.clone().multiply(1.5));
-            locations[2] = location.add(v.clone().multiply(-.5)).add(w);
-            locations[3] = location.add(v.clone().multiply(-.5));
+            locations[0] = location.clone().add(v.clone().multiply(1.5)).add(w);
+            locations[2] = location.clone().add(v.clone().multiply(-.5)).add(w);
+
+            w.multiply(-1);
+
+            locations[1] = location.clone().add(v.clone().multiply(1.5));
+            locations[3] = location.clone().add(v.clone().multiply(-.5));
             player.sendMessage(locations.toString());
             int counter = 0;
             for (Location l : locations) {
