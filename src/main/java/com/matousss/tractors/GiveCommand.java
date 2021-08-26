@@ -45,8 +45,8 @@ public class GiveCommand extends Command {
             }
             itemStack.setAmount(amount);
             target.getInventory().addItem(itemStack);
-            sender.sendMessage(String.format("Gave %o [%s§r] to %s",
-                    amount, itemStack.getItemMeta().getDisplayName(), target.getName()));
+            sender.sendMessage(String.format("Gave %s [%s§r] to %s",
+                    args[1], itemStack.getItemMeta().getDisplayName(), target.getName()));
             return true;
         }
         return false;
@@ -57,13 +57,12 @@ public class GiveCommand extends Command {
     private final List<String> emptyList = new ArrayList<>();
 
     @Override
-    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
-        sender.sendMessage(String.valueOf(args.length));
+    public @NotNull List<String> tabComplete(@NotNull CommandSender sender,
+                                             @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
         if (args.length == 1) return super.tabComplete(sender, alias, args);
 
         if (args.length == 2) return autoCompleteAmount;
         if (args.length == 3) return autoCompleteTiers;
-        if (args.length == 4) return Arrays.asList("lol");
 
         return emptyList;
     }

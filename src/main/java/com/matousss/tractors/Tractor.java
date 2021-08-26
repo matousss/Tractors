@@ -52,10 +52,11 @@ public class Tractor implements Listener {
     }
 
     public Tractor() {
-        this(3f, .08f, .06f, Material.STRUCTURE_BLOCK, "§6Traktor");
+        this(3f, .8f, .6f, Material.STRUCTURE_BLOCK, "§6Traktor");
     }
+
     public Tractor(Material material, String name) {
-        this(3f, .08f, .06f, material, name);
+        this(3f, .8f, .6f, material, name);
     }
 
 
@@ -119,9 +120,13 @@ public class Tractor implements Listener {
                                         .setY(armorStand.getVelocity().getY());
 
 
-                                if (rotation != 0) armorStand.setRotation(
-                                        armorStand.getLocation().getYaw() + rotation,
-                                        armorStand.getLocation().getPitch());
+                                if (rotation != 0) {
+                                    armorStand.setRotation(
+                                            armorStand.getLocation().getYaw() + rotation,
+                                            armorStand.getLocation().getPitch());
+                                    event.getPlayer().getLocation().setYaw(event.getPlayer().getLocation().getYaw()+rotation);
+                                }
+
                                 armorStand.setVelocity(velocity);
                             }
 
@@ -154,7 +159,7 @@ public class Tractor implements Listener {
 
         location.setY(location.getY() + 1);
         location.setDirection(event.getPlayer().getLocation().getDirection());
-        location.add(.5, 0 , .5);
+        location.add(.5, 0, .5);
 
         ArmorStand e = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
         e.setGravity(true);
@@ -173,7 +178,7 @@ public class Tractor implements Listener {
     }
 
 
-    public boolean isTractor(Entity entity) {
+    public boolean isThisTractor(Entity entity) {
         if (entity instanceof ArmorStand) {
             ArmorStand armorStand = (ArmorStand) entity;
             try {
@@ -188,7 +193,7 @@ public class Tractor implements Listener {
 
     @EventHandler
     public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
-        if (isTractor(event.getRightClicked())) {
+        if (isThisTractor(event.getRightClicked())) {
             ArmorStand armorStand = (ArmorStand) event.getRightClicked();
             if (armorStand.getPassengers().size() == 0) {
                 armorStand.addPassenger(event.getPlayer());
@@ -207,7 +212,7 @@ public class Tractor implements Listener {
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        if (isTractor(event.getEntity())) {
+        if (isThisTractor(event.getEntity())) {
             if (event.getDamager() instanceof Player) {
                 ArmorStand armorStand = (ArmorStand) event.getEntity();
                 destroyTractor(armorStand);
@@ -219,7 +224,7 @@ public class Tractor implements Listener {
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
-        if (isTractor(event.getEntity())) {
+        if (isThisTractor(event.getEntity())) {
             ArmorStand armorStand = (ArmorStand) event.getEntity();
             destroyTractor(armorStand);
         }
