@@ -20,9 +20,10 @@ public class DebugTractor extends Command {
     }
 
     @Override
-    public boolean execute(@NotNull CommandSender commandSender, @NotNull String s, @NotNull String[] strings) {
-        if (commandSender instanceof Player) {
-            Player player = (Player) commandSender;
+    public boolean execute(@NotNull CommandSender sender, @NotNull String s, @NotNull String[] strings) {
+        sender.sendMessage("fuck");
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
             Entity vehicle = player.getVehicle();
             ArmorStand armorStand;
             if (vehicle != null && Tractors.getInstance().isTractor(vehicle)) {
